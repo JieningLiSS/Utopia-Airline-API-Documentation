@@ -1,0 +1,158 @@
+---
+swagger: "2.0"
+info:
+  description: Utopia Airline API
+  version: 1.0.0
+  title: utopia_airline_api
+host: virtserver.swaggerhub.com
+basePath: /dev
+tags:
+- name: developers
+  description: Operations available to regular developers
+schemes:
+- https
+paths:
+  /flights/{departure}/{destination}:
+    get:
+      tags:
+      - searchFlight
+      summary: search flight by id
+      description: |
+        Search flight info by providing departure city and destination city
+      operationId: getFlightById
+      produces:
+      - application/json
+      parameters:
+      - name: departure
+        in: path
+        description: Pass departure city name to search flight info
+        required: true
+        type: string
+      - name: destination
+        in: path
+        description: Pass destination city name to search flight info
+        required: true
+        type: string
+      responses:
+        200:
+          description: Flight found
+          schema:
+            $ref: '#/definitions/Flight'
+        404:
+          description: Flight not found
+  /flights/{id}:
+    get:
+      tags:
+      - searchFlightById
+      summary: search flight's information by id
+      description: |
+        Flight's depature city, arrival city, date, price, available ticket will be returned
+      operationId: getFlightById
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Pass id and return details of matched flight's information
+        required: true
+        type: string
+      responses:
+        200:
+          description: Flight's data found
+          schema:
+            $ref: '#/definitions/Flight'
+        404:
+          description: Flight not found
+ /tickets/{id}:
+    post:
+      tags:
+      - bookTicket
+      summary: Book a ticket 
+      description: Book a ticket and delete a available ticket in database
+      operationId: bookTicket
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: customer
+        description: Fill the data to ticket table
+        required: true
+        schema:
+          $ref: '#/definitions/Ticket'
+      responses:
+        201:
+          description: book ticket successfully
+        400:
+          description: Invalid input
+  /tickets/{id}:
+    delete:
+      tags:
+      - cancelTicketById
+      summary: 
+      description: Add one more ticket in databse
+      operationId: cancelTicket
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: Pass id and add ticket in database
+        required: true
+        type: string
+      responses:
+        200:
+          description: Cancel ticket successfully
+          schema:
+            $ref: '#/definitions/Ticket'
+        404:
+          description: Ticket not found
+definitions:
+  Flight:
+    type: object
+    required:
+    - flight_id
+    - departing_airport
+    - arrival_airport
+    - date_time
+    - price
+    - available_tickets
+    properties:
+      flight_id:
+        type: integer
+      departing_airport:
+        type: string
+      arrival_airport:
+        type: string
+      date_time:
+        type: date
+      price:
+        type: double
+      available_tickets:
+        type: integer
+  Ticket:
+    type: object
+    required:
+    - ticket_number
+    - flight_id
+    - credit_card_number
+    - passenger_id
+    properties:
+      ticket_number:
+        type: integer
+      flight_id:
+        type: integer
+      credit_card_number:
+        type: string
+      passenger_id:
+        type: integer
+
+  
+  
+      
+
+
+ 
