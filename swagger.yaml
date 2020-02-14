@@ -16,10 +16,10 @@ paths:
     get:
       tags:
       - searchFlight
-      summary: search flight by id
+      summary: search flight by cities
       description: |
-        Search flight info by providing departure city and destination city
-      operationId: getFlightById
+        Search flight info by departure and destination cities
+      operationId: getFlightByCities
       produces:
       - application/json
       parameters:
