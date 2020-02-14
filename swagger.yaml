@@ -44,7 +44,7 @@ paths:
     get:
       tags:
       - searchFlightById
-      summary: search flight's information by id
+      summary: search flight information by id
       description: |
         Flight's depature city, arrival city, date, price, available ticket will be returned
       operationId: getFlightById
@@ -68,7 +68,7 @@ paths:
       tags:
       - bookTicket
       summary: Book a ticket 
-      description: Book a ticket and delete a available ticket in database
+      description: Book a ticket and subtract a available ticket in database
       operationId: bookTicket
       consumes:
       - application/json
@@ -110,6 +110,29 @@ paths:
             $ref: '#/definitions/Ticket'
         404:
           description: Ticket not found
+  /payments:
+    post:
+      tags:
+      - payment
+      summary: Pay for a ticket 
+      description: Pay for a ticket to finish booking
+      operationId: payment
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: payment
+        description: Fill the data in payment table
+        required: true
+        schema:
+          $ref: '#/definitions/Payment'
+      responses:
+        201:
+          description: transication successfully
+        400:
+          description: Invalid input
 definitions:
   Flight:
     type: object
@@ -149,6 +172,26 @@ definitions:
         type: string
       passenger_id:
         type: integer
+  Payment:
+    type: object
+    required:
+    - ticket_number
+    - passenger_id
+    - credit_card_number
+    - amount
+    - transaction_date
+    properties:
+      ticket_number:
+        type: integer
+      passenger_id:
+        type: integer
+      credit_card_number:
+        type: string
+      amount:
+        type: double
+      transaction_date:
+        type: date
+      
 
   
   
